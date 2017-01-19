@@ -104,7 +104,8 @@ func (r *rabbitMQChannel) DeclareReplyQueue(queue string) error {
 	return err
 }
 
-func (r *rabbitMQChannel) ConsumeQueue(queue string, autoAck bool) (<-chan amqp.Delivery, error) {
+func (r *rabbitMQChannel) ConsumeQueue(queue string, autoAck bool, prefetchCount, prefetchSize int) (<-chan amqp.Delivery, error) {
+	r.channel.Qos(prefetchCount, prefetchSize, false)
 	return r.channel.Consume(
 		queue,   // queue
 		r.uuid,  // consumer

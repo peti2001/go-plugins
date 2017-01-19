@@ -157,12 +157,12 @@ func (r *rabbitMQConn) Consume(queue, key string, autoAck bool, prefetchCount, p
 		return nil, nil, err
 	}
 
-	deliveries, err := consumerChannel.ConsumeQueue(
-		queue,
-		autoAck,
-		prefetchCount,
-		prefetchSize,
-	)
+	err = consumerChannel.channel.Qos(prefetchCount, prefetchSize, false)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	deliveries, err := consumerChannel.ConsumeQueue(queue, autoAck)
 	if err != nil {
 		return nil, nil, err
 	}

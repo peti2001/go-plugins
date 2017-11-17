@@ -105,7 +105,7 @@ func (r *rbroker) Subscribe(topic string, handler broker.Handler, opts ...broker
 	go func() {
 		for d := range sub {
 			go fn(d)
-			AckChannel.AddDelivery(topic, d)
+			AckChannel.AddDeliveryByAmqp(d)
 		}
 	}()
 

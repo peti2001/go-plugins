@@ -105,7 +105,7 @@ func (r *rabbitMQChannel) DeclareReplyQueue(queue string) error {
 }
 
 func (r *rabbitMQChannel) ConsumeQueue(queue string, autoAck bool) (<-chan amqp.Delivery, error) {
-	r.channel.Qos(1, 0, false)
+	r.channel.Qos(75, 0, false)
 	autoAck = false
 	return r.channel.Consume(
 		queue,   // queue
